@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #c8e6c9;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #2e7d32;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #1b5e20;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mark Your Attendance</h1>
+        <form id="attendanceForm">
+            <label for="rollNumber">Enter Your Roll Number:</label>
+            <input type="text" id="rollNumber" name="rollNumber" required>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="message"></div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const attendanceForm = document.getElementById("attendanceForm");
+            const rollNumberInput = document.getElementById("rollNumber");
+            const messageDiv = document.getElementById("message");
+
+            if (attendanceForm) {
+                attendanceForm.addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    const rollNumber = rollNumberInput.value;
+
+                    if (rollNumber) {
+                        fetch(`/mark-attendance?rollNumber=${rollNumber}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    messageDiv.style.color = "green";
+                                    messageDiv.innerText = "Attendance marked successfully!";
+                                } else {
+                                    messageDiv.style.color = "red";
+                                    messageDiv.innerText = "Failed to mark attendance. Please check your roll number.";
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error marking attendance:", error);
+                                messageDiv.style.color = "red";
+                                messageDiv.innerText = "An error occurred. Please try again.";
+                            });
+                    } else {
+                        messageDiv.style.color = "red";
+                        messageDiv.innerText = "Please enter your roll number.";
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

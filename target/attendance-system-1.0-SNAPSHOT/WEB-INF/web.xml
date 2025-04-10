@@ -1,0 +1,28 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="3.0">
+    <display-name>Attendance System</display-name>
+
+    <servlet>
+        <servlet-name>StudentController</servlet-name>
+        <servlet-class>com.attendance.controllers.StudentController</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>TeacherController</servlet-name>
+        <servlet-class>com.attendance.controllers.TeacherController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>StudentController</servlet-name>
+        <url-pattern>/student</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>TeacherController</servlet-name>
+        <url-pattern>/teacher</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+</web-app>

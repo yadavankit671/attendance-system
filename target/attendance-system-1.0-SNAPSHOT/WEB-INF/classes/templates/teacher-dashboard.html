@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f9f0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2e7d32;
+        }
+
+        h2 {
+            color: #388e3c;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #e8f5e9;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Teacher Dashboard</h1>
+        <h2>Present Students</h2>
+        <table id="attendanceTable">
+            <thead>
+                <tr>
+                    <th>Roll Number</th>
+                    <th>MAC Address</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Real-time attendance data will be populated here -->
+            </tbody>
+        </table>
+        <button id="refreshButton">Refresh Attendance</button>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const refreshButton = document.getElementById("refreshButton");
+            const attendanceTableBody = document.querySelector("#attendanceTable tbody");
+
+            function fetchAttendanceData() {
+                fetch("/get-attendance")
+                    .then(response => response.json())
+                    .then(data => {
+                        // Clear the existing table rows
+                        attendanceTableBody.innerHTML = "";
+
+                        // Populate the table with new data
+                        data.forEach(record => {
+                            const row = document.createElement("tr");
+                            row.innerHTML = `
+                                <td>${record.rollNumber}</td>
+                                <td>${record.macAddress}</td>
+                                <td>${record.timestamp}</td>
+                            `;
+                            attendanceTableBody.appendChild(row);
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching attendance data:", error);
+                    });
+            }
+
+            // Fetch attendance data when the page loads
+            fetchAttendanceData();
+
+            // Refresh attendance data when the button is clicked
+            refreshButton.addEventListener("click", fetchAttendanceData);
+        });
+    </script>
+</body>
+</html>
