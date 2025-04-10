@@ -59,9 +59,9 @@ The application uses MySQL 8 as the database. The database name is `attendance_s
 
 ## Setup Instructions
 
-1. **Extract the Project**: 
+1. **Clone the Repository**: 
    ```
-   https://drive.google.com/file/d/1hTAaOUQLXXbiH0IIaXP8EW6jCt6SWcpC/view?usp=sharing
+   Clone the repository to your local machine.
    ```
 
 2. **Configure Database**: 
